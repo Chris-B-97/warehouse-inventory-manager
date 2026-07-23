@@ -1,0 +1,1 @@
+package com.chrisb97.warehouse.model;import org.junit.jupiter.api.Test;import static org.junit.jupiter.api.Assertions.*;class ProductTest{@Test void lowStockIncludesMinimumBoundary(){Product p=new Product();p.setQuantity(10);p.setMinimumStock(10);assertTrue(p.isLowStock());p.setQuantity(11);assertFalse(p.isLowStock());}}

@@ -1,0 +1,3 @@
+package com.chrisb97.warehouse.service;
+import com.chrisb97.warehouse.dao.*;import com.chrisb97.warehouse.model.*;import java.util.List;
+public class DashboardService{private final DashboardDao stats;private final StockMovementDao movements;private final ProductDao products;public DashboardService(DashboardDao s,StockMovementDao m,ProductDao p){stats=s;movements=m;products=p;}public DashboardStats stats(){return stats.loadStats();}public List<StockMovement> recentMovements(){return movements.findRecent(8);}public List<Product> lowStockProducts(){return products.findAll("",null,true).stream().filter(Product::isActive).limit(8).toList();}}

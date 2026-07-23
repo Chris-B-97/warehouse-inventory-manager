@@ -1,0 +1,13 @@
+package com.chrisb97.warehouse.controller;
+import com.chrisb97.warehouse.config.AppContext;import com.chrisb97.warehouse.model.*;import com.chrisb97.warehouse.util.AlertUtil;import javafx.collections.FXCollections;import javafx.fxml.FXML;import javafx.scene.control.*;
+public class StockController{@FXML private ComboBox<Product> productCombo;@FXML private ComboBox<Location> locationCombo,targetLocationCombo;@FXML private TextField quantityField,reasonField,referenceField;@FXML private Label currentStockLabel,currentLocationLabel;
+@FXML public void initialize(){reload();productCombo.valueProperty().addListener((o,a,b)->showProduct(b));}
+private void reload(){productCombo.setItems(FXCollections.observableArrayList(AppContext.getInstance().products().activeProducts()));locationCombo.setItems(FXCollections.observableArrayList(AppContext.getInstance().locations().activeLocations()));targetLocationCombo.setItems(locationCombo.getItems());}
+private void showProduct(Product p){currentStockLabel.setText(p==null?"-":String.valueOf(p.getQuantity()));currentLocationLabel.setText(p==null?"-":p.getLocationCode());}
+@FXML private void stockIn(){run(()->AppContext.getInstance().stock().stockIn(product().getId(),quantity(),requiredLocation(locationCombo).getId(),reasonField.getText(),referenceField.getText()),"Stock entry recorded.");}
+@FXML private void stockOut(){run(()->AppContext.getInstance().stock().stockOut(product().getId(),quantity(),reasonField.getText(),referenceField.getText()),"Stock exit recorded.");}
+@FXML private void adjust(){run(()->AppContext.getInstance().stock().adjust(product().getId(),quantity(),reasonField.getText(),referenceField.getText()),"Stock adjusted.");}
+@FXML private void transfer(){run(()->AppContext.getInstance().stock().transfer(product().getId(),requiredLocation(targetLocationCombo).getId(),reasonField.getText(),referenceField.getText()),"Product transferred.");}
+private Product product(){if(productCombo.getValue()==null)throw new IllegalArgumentException("Select a product.");return productCombo.getValue();}private Location requiredLocation(ComboBox<Location> box){if(box.getValue()==null)throw new IllegalArgumentException("Select a location.");return box.getValue();}private int quantity(){try{return Integer.parseInt(quantityField.getText());}catch(NumberFormatException e){throw new IllegalArgumentException("Quantity must be an integer.");}}
+private void run(Runnable action,String message){try{action.run();AlertUtil.info("Success",message);quantityField.clear();reasonField.clear();referenceField.clear();reload();showProduct(productCombo.getValue());}catch(RuntimeException e){AlertUtil.error("Operation refused",e.getMessage());}}
+}

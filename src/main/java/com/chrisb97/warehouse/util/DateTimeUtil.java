@@ -1,0 +1,1 @@
+package com.chrisb97.warehouse.util;import java.time.LocalDateTime;import java.time.format.DateTimeFormatter;public final class DateTimeUtil{private static final DateTimeFormatter F=DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");private DateTimeUtil(){}public static String format(LocalDateTime value){return value==null?"":F.format(value);}}

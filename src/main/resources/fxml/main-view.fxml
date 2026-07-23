@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?><?import javafx.scene.layout.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.chrisb97.warehouse.controller.MainController">
+ <left><VBox prefWidth="220" styleClass="sidebar"><Label text="Warehouse" styleClass="brand-title"/><Label text="Inventory Manager" styleClass="brand-subtitle"/><Separator/><Button text="Dashboard" onAction="#showDashboard" maxWidth="Infinity"/><Button text="Products" onAction="#showProducts" maxWidth="Infinity"/><Button text="Locations" onAction="#showLocations" maxWidth="Infinity"/><Button text="Stock In / Out / Transfer" onAction="#showStock" maxWidth="Infinity"/><Button text="Movements" onAction="#showMovements" maxWidth="Infinity"/><Button text="Picking Route" onAction="#showPicking" maxWidth="Infinity"/><Region VBox.vgrow="ALWAYS"/><Button text="Settings" onAction="#showSettings" maxWidth="Infinity"/></VBox></left>
+ <center><StackPane fx:id="contentPane" styleClass="content-pane"/></center>
+</BorderPane>
